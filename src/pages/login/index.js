@@ -31,7 +31,8 @@ import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 
 // ** Hooks
-import { useAuth } from 'src/hooks/useAuth'
+import { useRouter } from 'next/router'
+import { signIn } from 'next-auth/react'
 import useBgColor from 'src/@core/hooks/useBgColor'
 import { useSettings } from 'src/@core/hooks/useSettings'
 
@@ -100,17 +101,11 @@ const schema = yup.object().shape({
   password: yup.string().min(5).required()
 })
 
-const defaultValues = {
-  password: 'admin',
-  email: 'admin@materio.com'
-}
-
 const LoginPage = () => {
-  const [rememberMe, setRememberMe] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
 
   // ** Hooks
-  const auth = useAuth()
+  const router = useRouter()
   const theme = useTheme()
   const bgColors = useBgColor()
   const { settings } = useSettings()
@@ -125,18 +120,24 @@ const LoginPage = () => {
     handleSubmit,
     formState: { errors }
   } = useForm({
-    defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
 
   const onSubmit = data => {
     const { email, password } = data
-    auth.login({ email, password, rememberMe }, () => {
-      setError('email', {
-        type: 'manual',
-        message: 'Email or Password is invalid'
-      })
+    signIn('credentials', { email, password, redirect: false }).then(res => {
+      if (res && res.ok) {
+        const returnUrl = router.query.returnUrl
+        const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
+
+        router.replace(redirectURL)
+      } else {
+        setError('email', {
+          type: 'manual',
+          message: 'Email or Password is invalid'
+        })
+      }
     })
   }
   const imageSource = skin === 'bordered' ? 'auth-v2-login-illustration-bordered' : 'auth-v2-login-illustration'
@@ -224,7 +225,6 @@ const LoginPage = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='admin@materio.com'
                     />
                   )}
                 />
@@ -269,12 +269,7 @@ const LoginPage = () => {
               </FormControl>
               <Box
                 sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
-              >
-                <FormControlLabel
-                  label='Remember Me'
-                  control={<Checkbox checked={rememberMe} onChange={e => setRememberMe(e.target.checked)} />}
-                />
-              </Box>
+              ></Box>
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
                 Login
               </Button>

@@ -7,7 +7,7 @@ import Icon from 'src/@core/components/icon'
 
 // ** Components
 import ModeToggler from 'src/@core/layouts/components/shared-components/ModeToggler'
-import UserDropdown from 'src/@core/layouts/components/shared-components/UserDropdown'
+import UserDropdown from 'src/layouts/components/UserDropdown'
 
 const AppBarContent = props => {
   // ** Props
