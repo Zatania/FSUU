@@ -97,8 +97,8 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().min(5).required()
+  username: yup.string().required('Username is your school id number.'),
+  password: yup.string().required('Password is required.')
 })
 
 const LoginPage = () => {
@@ -125,17 +125,17 @@ const LoginPage = () => {
   })
 
   const onSubmit = data => {
-    const { email, password } = data
-    signIn('credentials', { email, password, redirect: false }).then(res => {
+    const { username, password } = data
+    signIn('credentials', { username, password, redirect: false }).then(res => {
       if (res && res.ok) {
         const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
         router.replace(redirectURL)
       } else {
-        setError('email', {
+        setError('username', {
           type: 'manual',
-          message: 'Email or Password is invalid'
+          message: 'Username or Password is invalid'
         })
       }
     })
@@ -214,21 +214,23 @@ const LoginPage = () => {
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
-                  name='email'
+                  name='username'
                   control={control}
+                  defaultValue=''
                   rules={{ required: true }}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <TextField
-                      autoFocus
-                      label='Email'
+                      label='Username'
                       value={value}
                       onBlur={onBlur}
                       onChange={onChange}
-                      error={Boolean(errors.email)}
+                      error={Boolean(errors.username)}
                     />
                   )}
                 />
-                {errors.email && <FormHelperText sx={{ color: 'error.main' }}>{errors.email.message}</FormHelperText>}
+                {errors.username && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>
+                )}
               </FormControl>
               <FormControl fullWidth>
                 <InputLabel htmlFor='auth-login-v2-password' error={Boolean(errors.password)}>

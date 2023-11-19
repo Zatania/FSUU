@@ -20,6 +20,9 @@ import Icon from 'src/@core/components/icon'
 // ** Context
 import { signOut } from 'next-auth/react'
 
+// ** Hooks
+import { useSession } from 'next-auth/react'
+
 // ** Styled Components
 const BadgeContentSpan = styled('span')(({ theme }) => ({
   width: 8,
@@ -75,6 +78,8 @@ const UserDropdown = props => {
     handleDropdownClose()
   }
 
+  const { data: session } = useSession()
+
   return (
     <Fragment>
       <Badge
@@ -88,7 +93,7 @@ const UserDropdown = props => {
         }}
       >
         <Avatar
-          alt='John Doe'
+          alt={session.user.firstName + ' ' + session.user.lastName}
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
           src='/images/avatars/1.png'
@@ -112,55 +117,21 @@ const UserDropdown = props => {
                 horizontal: 'right'
               }}
             >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
+              <Avatar
+                alt={session.user.firstName + ' ' + session.user.lastName}
+                src='/images/avatars/1.png'
+                sx={{ width: '2.5rem', height: '2.5rem' }}
+              />
             </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
-              <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+              <Typography sx={{ fontWeight: 600 }}>{session.user.firstName + ' ' + session.user.lastName}</Typography>
+              <Typography variant='body2' sx={{ fontSize: '0.6rem', color: 'text.disabled' }}>
+                School ID: {session.user.username}
               </Typography>
             </Box>
           </Box>
         </Box>
         <Divider sx={{ mt: '0 !important' }} />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:account-outline' />
-            Profile
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:email-outline' />
-            Inbox
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:message-outline' />
-            Chat
-          </Box>
-        </MenuItem>
-        <Divider />
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:cog-outline' />
-            Settings
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:currency-usd' />
-            Pricing
-          </Box>
-        </MenuItem>
-        <MenuItem sx={{ p: 0 }} onClick={() => handleDropdownClose()}>
-          <Box sx={styles}>
-            <Icon icon='mdi:help-circle-outline' />
-            FAQ
-          </Box>
-        </MenuItem>
-        <Divider />
         <MenuItem
           onClick={handleLogout}
           sx={{ py: 2, '& svg': { mr: 2, fontSize: '1.375rem', color: 'text.primary' } }}
