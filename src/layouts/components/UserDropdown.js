@@ -126,7 +126,7 @@ const UserDropdown = props => {
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
               <Typography sx={{ fontWeight: 600 }}>{session.user.firstName + ' ' + session.user.lastName}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.6rem', color: 'text.disabled' }}>
-                School ID: {session.user.username}
+                Student Number: {session.user.studentNumber}
               </Typography>
             </Box>
           </Box>

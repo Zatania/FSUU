@@ -28,7 +28,7 @@ export const authOptions = {
          * For e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
          * You can also use the `req` object to obtain additional parameters (i.e., the request IP address)
          */
-        const { username, password } = credentials
+        const { studentNumber, password } = credentials
 
         try {
           // ** Login API Call to match the user credentials and receive user data in response along with his role
@@ -37,7 +37,7 @@ export const authOptions = {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ username, password })
+            body: JSON.stringify({ studentNumber, password })
           })
           const user = await res.json()
 
@@ -52,7 +52,7 @@ export const authOptions = {
 
           return null
         } catch {
-          throw new Error('Username or Password is invalid')
+          throw new Error('Student Number or Password is invalid')
         }
       }
     })
@@ -97,7 +97,7 @@ export const authOptions = {
          * in token which then will be available in the `session()` callback
          */
         token.role = user.role
-        token.username = user.username
+        token.studentNumber = user.studentNumber
         token.lastName = user.lastName
         token.firstName = user.firstName
       }
@@ -108,7 +108,7 @@ export const authOptions = {
       if (session.user) {
         // ** Add custom params to user in session which are added in `jwt()` callback via `token` parameter
         session.user.role = token.role
-        session.user.username = token.username
+        session.user.studentNumber = token.studentNumber
         session.user.lastName = token.lastName
         session.user.firstName = token.firstName
       }

@@ -97,7 +97,7 @@ const FormControlLabel = styled(MuiFormControlLabel)(({ theme }) => ({
 }))
 
 const schema = yup.object().shape({
-  username: yup.string().required('Username is your school id number.'),
+  studentNumber: yup.string().required('Schoold Number is required.'),
   password: yup.string().required('Password is required.')
 })
 
@@ -125,17 +125,17 @@ const LoginPage = () => {
   })
 
   const onSubmit = data => {
-    const { username, password } = data
-    signIn('credentials', { username, password, redirect: false }).then(res => {
+    const { studentNumber, password } = data
+    signIn('credentials', { studentNumber, password, redirect: false }).then(res => {
       if (res && res.ok) {
         const returnUrl = router.query.returnUrl
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
 
         router.replace(redirectURL)
       } else {
-        setError('username', {
+        setError('studentNumber', {
           type: 'manual',
-          message: 'Username or Password is invalid'
+          message: 'Student Number or Password is invalid'
         })
       }
     })
@@ -214,22 +214,22 @@ const LoginPage = () => {
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
-                  name='username'
+                  name='studentNumber'
                   control={control}
                   defaultValue=''
                   rules={{ required: true }}
                   render={({ field: { value, onChange, onBlur } }) => (
                     <TextField
-                      label='Username'
+                      label='Student Number'
                       value={value}
                       onBlur={onBlur}
                       onChange={onChange}
-                      error={Boolean(errors.username)}
+                      error={Boolean(errors.studentNumber)}
                     />
                   )}
                 />
-                {errors.username && (
-                  <FormHelperText sx={{ color: 'error.main' }}>{errors.username.message}</FormHelperText>
+                {errors.studentNumber && (
+                  <FormHelperText sx={{ color: 'error.main' }}>{errors.studentNumber.message}</FormHelperText>
                 )}
               </FormControl>
               <FormControl fullWidth>

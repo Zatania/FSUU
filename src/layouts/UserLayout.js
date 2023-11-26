@@ -16,8 +16,24 @@ import HorizontalNavItems from 'src/navigation/horizontal'
 import VerticalAppBarContent from './components/vertical/AppBarContent'
 import HorizontalAppBarContent from './components/horizontal/AppBarContent'
 
+// ** Import
+import Box from '@mui/material/Box'
+import Typography from '@mui/material/Typography'
+
 // ** Hook Import
 import { useSettings } from 'src/@core/hooks/useSettings'
+
+// ** Change App Branding
+const AppBrand = () => {
+  return (
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <img src='../images/logos/logo.png' alt='logo' width='35' height='35' />
+      <Typography variant='h6' sx={{ ml: 2 }}>
+        CRURIOS
+      </Typography>
+    </Box>
+  )
+}
 
 const UserLayout = ({ children, contentHeightFixed }) => {
   // ** Hooks
@@ -47,7 +63,8 @@ const UserLayout = ({ children, contentHeightFixed }) => {
       contentHeightFixed={contentHeightFixed}
       verticalLayoutProps={{
         navMenu: {
-          navItems: VerticalNavItems()
+          navItems: VerticalNavItems(),
+          branding: () => <AppBrand />
 
           // Uncomment the below line when using server-side menu in vertical layout and comment the above line
           // navItems: verticalMenuItems
@@ -78,7 +95,6 @@ const UserLayout = ({ children, contentHeightFixed }) => {
       })}
     >
       {children}
-      
     </Layout>
   )
 }
