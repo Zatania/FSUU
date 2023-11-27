@@ -1,19 +1,8 @@
-import mysql from 'mysql2/promise'
-
-// Create a MySQL connection pool
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  database: 'crurios',
-  password: 'root',
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
-})
+import db from '../../db'
 
 // A function to query the MySQL database for user details
 const getUserFromDatabase = async (studentNumber, password) => {
-  const [rows] = await pool.query('SELECT * FROM users WHERE studentNumber = ? AND password = ?', [
+  const [rows] = await db.query('SELECT * FROM users WHERE studentNumber = ? AND password = ?', [
     studentNumber,
     password
   ])

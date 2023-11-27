@@ -12,10 +12,14 @@ const defineRulesFor = (role, subject) => {
   if (role === 'admin') {
     can('manage', 'all')
   } else if (role === 'client') {
+    can(['read'], 'transactionStatus')
+    can(['read'], 'transactionSchedule')
     can(['read'], 'request-page')
     can(['read'], 'home')
   } else if (role === 'registrar') {
     can(['read'], 'home')
+    can(['read'], 'transactions')
+    can(['read'], 'scheduleList')
   } else {
     can(['read', 'create', 'update', 'delete'], subject)
   }

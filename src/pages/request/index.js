@@ -1,5 +1,5 @@
 // ** React Imports
-import { forwardRef, useState } from 'react'
+import { forwardRef, useState, useEffect } from 'react'
 
 // ** MUI Imports
 import RadioGroup from '@mui/material/RadioGroup'
@@ -28,8 +28,11 @@ import Select from '@mui/material/Select'
 
 // ** Hooks
 import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/router'
 
 // ** Third Party Imports
+import download from 'downloadjs'
+
 //** For Date/Time Picker
 import dayjs from 'dayjs'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -53,41 +56,6 @@ const CustomInput = forwardRef((props, ref) => {
 const RequestCredentials = () => {
   // ** Field States
   const currentDate = dayjs(Date.now())
-  const [dateFilled, setDateFilled] = useState(null)
-  const [studentNumber, setStudentNumber] = useState(null)
-  const [firstName, setFirstName] = useState(null)
-  const [lastName, setLastName] = useState(null)
-  const [course, setCourse] = useState(null)
-  const [major, setMajor] = useState(null)
-  const [graduated, setGraduated] = useState(null)
-  const [graduationDate, setGraduationDate] = useState(null)
-  const [academicHonor, setAcademicHonor] = useState(null)
-  const [yearLevel, setYearLevel] = useState(null)
-  const [lastSchoolYear, setLastSchoolYear] = useState(null)
-  const [homeAddress, setHomeAddress] = useState(null)
-  const [contactNumber, setContactNumber] = useState(null)
-  const [email, setEmail] = useState(null)
-  const [birthDate, setBirthDate] = useState(null)
-  const [birthPlace, setBirthPlace] = useState(null)
-  const [religion, setReligion] = useState(null)
-  const [citizenship, setCitizenship] = useState(null)
-  const [sex, setSex] = useState(null)
-  const [fatherName, setFatherName] = useState(null)
-  const [motherName, setMotherName] = useState(null)
-  const [guardianName, setGuardianName] = useState(null)
-  const [elementary, setElementary] = useState(null)
-  const [elementaryYear, setElementaryYear] = useState(null)
-  const [secondary, setSecondary] = useState(null)
-  const [secondaryYear, setSecondaryYear] = useState(null)
-  const [juniorHigh, setJuniorHigh] = useState(null)
-  const [juniorHighYear, setJuniorHighYear] = useState(null)
-  const [seniorHigh, setSeniorHigh] = useState(null)
-  const [seniorHighYear, setSeniorHighYear] = useState(null)
-  const [tertiary, setTertiary] = useState(null)
-  const [tertiaryYear, setTertiaryYear] = useState(null)
-  const [employedAt, setEmployedAt] = useState(null)
-  const [position, setPosition] = useState(null)
-  const [purpose, setPurpose] = useState(null)
 
   // ** Other states
 
@@ -128,7 +96,7 @@ const RequestCredentials = () => {
 
   // Fill up pdf form
   const fillForm = async formData => {
-    const formUrl = '../public/pdf/fsuu-request-form.pdf'
+    const formUrl = 'http://localhost:3000/pdf/fsuu-request-form.pdf'
     const formPdfBytes = await fetch(formUrl).then(res => res.arrayBuffer())
 
     const pdfDoc = await PDFDocument.load(formPdfBytes)
@@ -190,25 +158,38 @@ const RequestCredentials = () => {
     const assistedBy = form.getTextField('Assisted by')
 
     // Fill textfields from form data
-
-    dateFilled.setText(formData.dateFilled)
-    studentNumber.setText(formData.studentNumber)
+    const dateFilledForm = formData.dateFilled
+    const formattedDate = dateFilledForm ? dayjs(dateFilledForm).format('MM/DD/YYYY') : ''
+    dateFilled.setText(formattedDate)
+    studentNumber.setText(formData.studentNumber.toString())
     nameOfStudent.setText(formData.firstName + ' ' + formData.lastName)
     course.setText(formData.course)
     major.setText(formData.major)
     if (formData.graduateCheck === 'yes') {
-      graduatedYes.setText('✓')
-      graduationDate.setText(formData.graduationDate)
+      graduatedYes.setText('X')
+      const graduationDateFilledForm = formData.graduationDate
+
+      const formattedGraduationDate = graduationDateFilledForm
+        ? dayjs(graduationDateFilledForm).format('MM/DD/YYYY')
+        : ''
+      graduationDate.setText(formattedGraduationDate)
       academicHonor.setText(formData.academicHonor)
     } else {
-      graduatedNo.setText('✓')
+      graduatedNo.setText('X')
+      const lastSchoolYearFilledForm = formData.lastSchoolYear
+
+      const formattedLastSchoolYear = lastSchoolYearFilledForm
+        ? dayjs(lastSchoolYearFilledForm).format('MM/DD/YYYY')
+        : ''
       yearLevel.setText(formData.yearLevel)
-      lastSchoolYear.setText(formData.lastSchoolYear)
+      lastSchoolYear.setText(formattedLastSchoolYear)
     }
     homeAddress.setText(formData.homeAddress)
     contactNumber.setText(formData.contactNo)
     email.setText(formData.emailAdd)
-    birthDate.setText(formData.birthDate)
+    const birthDateFilledForm = formData.birthDate
+    const formattedBirthDate = birthDateFilledForm ? dayjs(birthDateFilledForm).format('MM/DD/YYYY') : ''
+    birthDate.setText(formattedBirthDate)
     birthPlace.setText(formData.birthPlace)
     religion.setText(formData.religion)
     citizenship.setText(formData.citizenship)
@@ -223,47 +204,159 @@ const RequestCredentials = () => {
       nameOfGuardian.setText(formData.guardianName)
     }
     elementary.setText(formData.elementary)
-    elementaryYear.setText(formData.elementaryGraduated)
+    const elementaryYearFilledForm = formData.elementaryGraduated
+    const formattedElementaryYear = elementaryYearFilledForm ? dayjs(elementaryYearFilledForm).format('MM/DD/YYYY') : ''
+    elementaryYear.setText(formattedElementaryYear)
     if (formData.secondary) {
       secondary.setText(formData.secondary)
-      secondaryYear.setText(formData.secondaryGraduated)
+      const secondaryYearFilledForm = formData.secondaryGraduated
+      const formattedSecondaryYear = secondaryYearFilledForm ? dayjs(secondaryYearFilledForm).format('MM/DD/YYYY') : ''
+      secondaryYear.setText(formattedSecondaryYear)
     } else {
       juniorHigh.setText(formData.juniorHigh)
-      juniorHighYear.setText(formData.juniorHighGraduated)
+      const juniorHighYearFilledForm = formData.juniorHighGraduated
+
+      const formattedJuniorHighYear = juniorHighYearFilledForm
+        ? dayjs(juniorHighYearFilledForm).format('MM/DD/YYYY')
+        : ''
+      juniorHighYear.setText(formattedJuniorHighYear)
       seniorHigh.setText(formData.seniorHigh)
-      seniorHighYear.setText(formData.seniorHighGraduated)
+      const seniorHighYearFilledForm = formData.seniorHighGraduated
+
+      const formattedSeniorHighYear = seniorHighYearFilledForm
+        ? dayjs(seniorHighYearFilledForm).format('MM/DD/YYYY')
+        : ''
+      seniorHighYear.setText(formattedSeniorHighYear)
     }
     if (formData.tertiary) {
       tertiary.setText(formData.tertiary)
-      tertiaryYear.setText(formData.tertiaryGraduated)
+      const tertiaryYearFilledForm = formData.tertiaryGraduated
+      const formattedTertiaryYear = tertiaryYearFilledForm ? dayjs(tertiaryYearFilledForm).format('MM/DD/YYYY') : ''
+      tertiaryYear.setText(formattedTertiaryYear)
     }
     if (formData.employedAt) {
       employedAt.setText(formData.employedAt)
       position.setText(formData.position)
     }
+    if (formData.transcriptCopies) {
+      transcriptCheck.setText('X')
+      transcriptCopies.setText(formData.transcriptCopies)
+    }
+    if (formData.dismissalCopies) {
+      dismissalCheck.setText('X')
+      dismissalCopies.setText(formData.dismissalCopies)
+    }
+    if (formData.moralCharacterCopies) {
+      moralCharacterCheck.setText('X')
+      moralCharacterCopies.setText(formData.moralCharacterCopies)
+    }
+    if (formData.diplomaCopies) {
+      diplomaCheck.setText('X')
+      diplomaCopies.setText(formData.diplomaCopies)
+    }
+    if (formData.authenticationCopies) {
+      authenticationCheck.setText('X')
+      authenticationCopies.setText(formData.authenticationCopies)
+    }
+    if (formData.courseDescriptionCopies) {
+      courseDescriptionCheck.setText('X')
+      courseDescriptionCopies.setText(formData.courseDescriptionCopies)
+    }
+    if (formData.certificationCopies) {
+      certificationCheck.setText('X')
+      certificationType.setText(formData.certificationType)
+      certificationCopies.setText(formData.certificationCopies)
+    }
+    if (formData.cavRedRibbonCopies) {
+      cavRedRibbonCheck.setText('X')
+      cavRedRibbonCopies.setText(formData.cavRedRibbonCopies)
+    }
+    purpose.setText(formData.purpose)
+    assistedBy.setText('Online Filled by: ' + formData.firstName + ' ' + formData.lastName)
+
+    // save pdf
+    const pdfBytes = await pdfDoc.save()
+
+    download(pdfBytes, formData.lastName + '-CredentialRequest.pdf', 'application/pdf')
   }
+
+  // hooks
+  const router = useRouter()
 
   const onSubmit = async () => {
     setLoading(true)
 
-    // Simulate a delay (e.g., API call) with a sleep function
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
-    await sleep(2000)
+    try {
+      const userID = session.user.id
 
-    // Get the form data using getValues() from the control prop
-    const formData = getValues()
+      // Get the form data using getValues() from the control prop
+      const formData = getValues()
 
-    // Log the submitted data
-    console.log('Submitted Data:', formData)
+      // Make the API call to submit the form data
+      const response = await fetch('/api/transaction/requestSubmission', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ userID, formData })
+      })
 
-    setLoading(false)
-    toast.success('Form Submitted')
+      if (!response.ok) {
+        throw new Error('Failed to submit form')
+      }
+
+      // Simulate a delay (e.g., API call) with a sleep function
+      const sleep = ms => new Promise(resolve => setTimeout(resolve, ms))
+      await sleep(2000)
+
+      // Use the fillForm function to set values in the PDF
+      await fillForm(formData)
+
+      setLoading(false)
+      toast.success('Form Submitted')
+      router.push('/')
+    } catch (error) {
+      console.error('Error submitting form:', error)
+      setLoading(false)
+      toast.error('Failed to submit form')
+    }
   }
 
   // Reset form state when needed
   const handleReset = () => {
     reset()
   }
+
+  // Check transaction Status
+
+  const [hasPendingTransaction, setHasPendingTransaction] = useState(false)
+
+  useEffect(() => {
+    const userID = session.user.id
+
+    fetch('/api/transaction/checkTransactionStatus', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ userID })
+    })
+      .then(response => response.json())
+      .then(data => {
+        setHasPendingTransaction(data.hasPendingTransaction)
+
+        // Redirect to the index page if there is a pending transaction.
+        if (data.hasPendingTransaction) {
+          router.push('/')
+          toast.error('Pending Transaction Found')
+        }
+      })
+      .catch(error => {
+        console.error('Error checking transaction status:', error)
+
+        // Handle error as needed
+      })
+  }, [router, session.user.id])
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -619,7 +712,7 @@ const RequestCredentials = () => {
                     defaultValue='Male'
                     rules={{ required: 'This field is required' }}
                     render={({ field }) => (
-                      <Select {...field} labelId='sexSelect' label='Sex' error={!!errors.yearLevel}>
+                      <Select {...field} labelId='sexSelect' label='Sex' error={!!errors.sexSelect}>
                         <MenuItem value='Male'>Male</MenuItem>
                         <MenuItem value='Female'>Female</MenuItem>
                       </Select>
