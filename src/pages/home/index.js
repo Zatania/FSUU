@@ -8,7 +8,6 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
-import Avatar from '@mui/material/Avatar'
 import { DataGrid } from '@mui/x-data-grid'
 import Tooltip from '@mui/material/Tooltip'
 import TextField from '@mui/material/TextField'
@@ -67,6 +66,7 @@ const Home = () => {
   const router = useRouter()
 
   const [selectedRowId, setSelectedRowId] = useState(null)
+  const [selectedTransactionRowId, setSelectedTransactionRowId] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const {
@@ -124,7 +124,7 @@ const Home = () => {
   }
 
   const handleViewButtonClick = async rowId => {
-    setSelectedRowId(rowId)
+    setSelectedTransactionRowId(rowId)
 
     // Additional logic or state updates if needed
     await setShow(true) // Assuming setShow is a state update function
@@ -149,9 +149,9 @@ const Home = () => {
       toast.success('Link Submitted')
       router.push('/')
     } catch (error) {
-      console.error('Error submitting link:', error)
+      console.error('Error submitting schedule:', error)
       setLoading(false)
-      toast.error('Failed to submit link')
+      toast.error('Failed to submit schedule')
     }
   }
 
@@ -352,13 +352,13 @@ const Home = () => {
       headerName: 'Actions',
       renderCell: ({ row }) => (
         <>
-          {['Done'].includes(row.transactionStatus) ? (
+          {['Done', 'Scheduled'].includes(row.transactionStatus) ? (
             <Button component='label' variant='outlined' disabled>
-              Add Image Link
+              View
             </Button>
           ) : (
             <Button component='label' variant='outlined' onClick={() => handleViewButtonClick(row.id)}>
-              Add Image Link
+              View
             </Button>
           )}
           <Dialog
@@ -402,14 +402,23 @@ const Home = () => {
                         <Controller
                           name='rowID'
                           control={control}
-                          defaultValue={selectedRowId}
+                          defaultValue={selectedTransactionRowId}
                           render={({ field }) => <TextField {...field} type='hidden' />}
                         />
                         <Controller
                           name='firstName'
                           control={control}
                           defaultValue={row.firstName}
-                          render={({ field }) => <TextField {...field} fullWidth label='First Name' disabled />}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              label='First Name'
+                              InputProps={{
+                                readOnly: true
+                              }}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -417,7 +426,16 @@ const Home = () => {
                           name='lastName'
                           control={control}
                           defaultValue={row.lastName}
-                          render={({ field }) => <TextField {...field} fullWidth label='Last Name' disabled />}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              label='Last Name'
+                              InputProps={{
+                                readOnly: true
+                              }}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -425,7 +443,16 @@ const Home = () => {
                           name='studentNumber'
                           control={control}
                           defaultValue={row.studentNumber}
-                          render={({ field }) => <TextField {...field} fullWidth label='Student Number' disabled />}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              label='Student Number'
+                              InputProps={{
+                                readOnly: true
+                              }}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={12}>
@@ -433,7 +460,16 @@ const Home = () => {
                           name='homeAddress'
                           control={control}
                           defaultValue={row.homeAddress}
-                          render={({ field }) => <TextField {...field} fullWidth label='Home Address' disabled />}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              label='Home Address'
+                              InputProps={{
+                                readOnly: true
+                              }}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -441,7 +477,16 @@ const Home = () => {
                           name='contactNo'
                           control={control}
                           defaultValue={row.contactNo}
-                          render={({ field }) => <TextField {...field} fullWidth label='Contact Number' disabled />}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              label='Contact Number'
+                              InputProps={{
+                                readOnly: true
+                              }}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -449,7 +494,16 @@ const Home = () => {
                           name='purpose'
                           control={control}
                           defaultValue={row.purpose}
-                          render={({ field }) => <TextField {...field} fullWidth label='Purpose' disabled />}
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              fullWidth
+                              label='Purpose'
+                              InputProps={{
+                                readOnly: true
+                              }}
+                            />
+                          )}
                         />
                       </Grid>
                       <Grid item xs={4}>
@@ -479,7 +533,16 @@ const Home = () => {
                               name='transcriptCopies'
                               control={control}
                               defaultValue={row.transcriptCopies}
-                              render={({ field }) => <TextField {...field} fullWidth label='Copies' disabled />}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Copies'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
+                              )}
                             />
                           </Grid>
                           <Grid item sm={6} xs={12}>
@@ -504,7 +567,16 @@ const Home = () => {
                               name='dismissalCopies'
                               control={control}
                               defaultValue={row.dismissalCopies}
-                              render={({ field }) => <TextField {...field} fullWidth label='Copies' disabled />}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Copies'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
+                              )}
                             />
                           </Grid>
                           <Grid item sm={6} xs={12}>
@@ -512,7 +584,7 @@ const Home = () => {
                               name='dismissalSchedule'
                               control={control}
                               defaultValue=''
-                              render={({ field }) => <DatePicker {...field} label='Transcript Schedule' />}
+                              render={({ field }) => <DatePicker {...field} label='Dismissal Schedule' />}
                             />
                           </Grid>
                         </>
@@ -529,7 +601,16 @@ const Home = () => {
                               name='moralCharacterCopies'
                               control={control}
                               defaultValue={row.moralCharacterCopies}
-                              render={({ field }) => <TextField {...field} fullWidth label='Copies' disabled />}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Copies'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
+                              )}
                             />
                           </Grid>
                           <Grid item sm={6} xs={12}>
@@ -554,7 +635,16 @@ const Home = () => {
                               name='diplomaCopies'
                               control={control}
                               defaultValue={row.diplomaCopies}
-                              render={({ field }) => <TextField {...field} fullWidth label='Copies' disabled />}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Copies'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
+                              )}
                             />
                           </Grid>
                           <Grid item sm={6} xs={12}>
@@ -579,7 +669,16 @@ const Home = () => {
                               name='authenticationCopies'
                               control={control}
                               defaultValue={row.authenticationCopies}
-                              render={({ field }) => <TextField {...field} fullWidth label='Copies' disabled />}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Copies'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
+                              )}
                             />
                           </Grid>
                           <Grid item sm={6} xs={12}>
@@ -604,7 +703,16 @@ const Home = () => {
                               name='courseDescriptionCopies'
                               control={control}
                               defaultValue={row.courseDescriptionCopies}
-                              render={({ field }) => <TextField {...field} fullWidth label='Copies' disabled />}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Copies'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
+                              )}
                             />
                           </Grid>
                           <Grid item sm={6} xs={12}>
@@ -632,7 +740,14 @@ const Home = () => {
                               control={control}
                               defaultValue={row.certificationType}
                               render={({ field }) => (
-                                <TextField {...field} fullWidth label='Certification Type' disabled />
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Certification Type'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
                               )}
                             />
                           </Grid>
@@ -641,7 +756,16 @@ const Home = () => {
                               name='certificationCopies'
                               control={control}
                               defaultValue={row.certificationCopies}
-                              render={({ field }) => <TextField {...field} fullWidth label='Copies' disabled />}
+                              render={({ field }) => (
+                                <TextField
+                                  {...field}
+                                  fullWidth
+                                  label='Copies'
+                                  InputProps={{
+                                    readOnly: true
+                                  }}
+                                />
+                              )}
                             />
                           </Grid>
                           <Grid item sm={4} xs={12}>
@@ -751,7 +875,6 @@ const Home = () => {
             }
           })
           const data4 = await response4.json()
-          console.log(data4)
           setTransactionRows(data4)
         } catch (error) {
           console.error('Error fetching data:', error)
