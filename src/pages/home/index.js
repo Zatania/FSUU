@@ -903,8 +903,47 @@ const Home = () => {
         setSchedRows(data3)
       } catch (error) {
         console.error('Error fetching data:', error)
-me page)
-ead',
+      }
+    }
+
+    fetchData()
+  }, [session.user.id])
+
+  const ability = useContext(AbilityContext)
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Grid container spacing={6}>
+        <Grid item sm={12} xs={12}>
+          <Card>
+            <DataGrid
+              autoHeight
+              hideFooter
+              rows={rows}
+              columns={columns}
+              disableRowSelectionOnClick
+              pagination={undefined}
+            />
+          </Card>
+        </Grid>
+        <Grid item sm={12} xs={12}>
+          <Card>
+            <DataGrid
+              autoHeight
+              hideFooter
+              rows={schedrows}
+              columns={schedColumns}
+              disableRowSelectionOnClick
+              pagination={undefined}
+            />
+          </Card>
+        </Grid>
+      </Grid>
+    </LocalizationProvider>
+  )
+}
+Home.acl = {
+  action: 'read',
   subject: 'home'
 }
 
