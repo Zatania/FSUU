@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 import CardHeader from '@mui/material/CardHeader'
 import CardContent from '@mui/material/CardContent'
 import Box from '@mui/material/Box'
+import Avatar from '@mui/material/Avatar'
 import { DataGrid } from '@mui/x-data-grid'
 import Tooltip from '@mui/material/Tooltip'
 import TextField from '@mui/material/TextField'
@@ -66,7 +67,6 @@ const Home = () => {
   const router = useRouter()
 
   const [selectedRowId, setSelectedRowId] = useState(null)
-  const [selectedTransactionRowId, setSelectedTransactionRowId] = useState(null)
   const [loading, setLoading] = useState(false)
 
   const [selectedRowData, setSelectedRowData] = useState({})
@@ -903,47 +903,8 @@ const Home = () => {
         setSchedRows(data3)
       } catch (error) {
         console.error('Error fetching data:', error)
-      }
-    }
-
-    fetchData()
-  }, [session.user.id])
-
-  const ability = useContext(AbilityContext)
-
-  return (
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Grid container spacing={6}>
-        <Grid item sm={12} xs={12}>
-          <Card>
-            <DataGrid
-              autoHeight
-              hideFooter
-              rows={rows}
-              columns={columns}
-              disableRowSelectionOnClick
-              pagination={undefined}
-            />
-          </Card>
-        </Grid>
-        <Grid item sm={12} xs={12}>
-          <Card>
-            <DataGrid
-              autoHeight
-              hideFooter
-              rows={schedrows}
-              columns={schedColumns}
-              disableRowSelectionOnClick
-              pagination={undefined}
-            />
-          </Card>
-        </Grid>
-      </Grid>
-    </LocalizationProvider>
-  )
-}
-Home.acl = {
-  action: 'read',
+me page)
+ead',
   subject: 'home'
 }
 
