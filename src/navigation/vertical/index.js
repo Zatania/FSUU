@@ -8,6 +8,13 @@ const navigation = () => {
       icon: 'mdi:home-outline'
     },
     {
+      title: 'Dashboard',
+      path: '/dashboard',
+      action: 'read',
+      subject: 'dashboard',
+      icon: 'mdi:home-outline'
+    },
+    {
       title: 'Second Page',
       path: '/second-page',
       icon: 'mdi:email-outline'

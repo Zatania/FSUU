@@ -378,7 +378,14 @@ const RequestCredentials = () => {
                     control={control}
                     defaultValue={currentDate}
                     render={({ field: { value, onChange } }) => (
-                      <DatePicker label='Date Filled' value={value} onChange={onChange} readOnly />
+                      <DatePicker
+                        label='Date Filled'
+                        value={value}
+                        onChange={onChange}
+                        InputProps={{
+                          readOnly: true
+                        }}
+                      />
                     )}
                   />
                 </FormControl>
@@ -397,7 +404,9 @@ const RequestCredentials = () => {
                         onChange={onChange}
                         error={Boolean(errors.studentNumber)}
                         aria-describedby='validation-async-student-number'
-                        readOnly
+                        InputProps={{
+                          readOnly: true
+                        }}
                       />
                     )}
                   />
@@ -417,7 +426,9 @@ const RequestCredentials = () => {
                         onChange={onChange}
                         error={Boolean(errors.firstName)}
                         aria-describedby='validation-async-first-name'
-                        readOnly
+                        InputProps={{
+                          readOnly: true
+                        }}
                       />
                     )}
                   />
@@ -437,7 +448,9 @@ const RequestCredentials = () => {
                         onChange={onChange}
                         error={Boolean(errors.lastName)}
                         aria-describedby='validation-async-last-name'
-                        readOnly
+                        InputProps={{
+                          readOnly: true
+                        }}
                       />
                     )}
                   />
@@ -802,7 +815,7 @@ const RequestCredentials = () => {
                 <Controller
                   name='elementaryGraduated'
                   control={control}
-                  defaultValue={currentDate}
+                  defaultValue=''
                   render={({ field }) => <DatePicker {...field} label='Elementary Year Graduated' />}
                 />
               </Grid>
@@ -826,7 +839,7 @@ const RequestCredentials = () => {
                 <Controller
                   name='secondaryGraduated'
                   control={control}
-                  defaultValue={currentDate}
+                  defaultValue=''
                   render={({ field }) => <DatePicker {...field} label='Secondary Year Graduated' />}
                 />
               </Grid>
@@ -850,7 +863,7 @@ const RequestCredentials = () => {
                 <Controller
                   name='juniorHighGraduated'
                   control={control}
-                  defaultValue={currentDate}
+                  defaultValue=''
                   render={({ field }) => <DatePicker {...field} label='Junior High Year Graduated' />}
                 />
               </Grid>
@@ -874,7 +887,7 @@ const RequestCredentials = () => {
                 <Controller
                   name='seniorHighGraduated'
                   control={control}
-                  defaultValue={currentDate}
+                  defaultValue=''
                   render={({ field }) => <DatePicker {...field} label='Senior High Year Graduated' />}
                 />
               </Grid>
@@ -906,7 +919,7 @@ const RequestCredentials = () => {
                 <Controller
                   name='tertiaryGraduated'
                   control={control}
-                  defaultValue={currentDate}
+                  defaultValue=''
                   render={({ field }) => <DatePicker {...field} label='Tertiary Year Graduated' />}
                 />
               </Grid>

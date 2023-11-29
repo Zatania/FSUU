@@ -2,7 +2,7 @@ import db from '../../../db'
 
 const handler = async (req, res) => {
   try {
-    const result = await db.query('SELECT * FROM transactions WHERE transactionStatus IN (?, ?)', ['Submitted', 'Done'])
+    const result = await db.query('SELECT * FROM transactions WHERE transactionStatus IN (?)', ['Scheduled'])
 
     // Extract relevant data from each row
     const rows = result[0].map(row => ({
