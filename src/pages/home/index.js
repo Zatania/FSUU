@@ -550,7 +550,7 @@ const Home = () => {
                           <Controller
                             name='dismissalSchedule'
                             control={control}
-                            defaultValue={selectedRowData?.dismissalSchedule}
+                            defaultValue={dayjs(selectedRowData?.dismissalSchedule).format('MMMM DD, YYYY')}
                             render={({ field }) => (
                               <TextField
                                 {...field}
@@ -593,7 +593,7 @@ const Home = () => {
                           <Controller
                             name='moralCharacterSchedule'
                             control={control}
-                            defaultValue={selectedRowData?.moralCharacterSchedule}
+                            defaultValue={dayjs(selectedRowData?.moralCharacterSchedule).format('MMMM DD, YYYY')}
                             render={({ field }) => (
                               <TextField
                                 {...field}
@@ -636,7 +636,7 @@ const Home = () => {
                           <Controller
                             name='diplomaSchedule'
                             control={control}
-                            defaultValue={selectedRowData?.diplomaSchedule}
+                            defaultValue={dayjs(selectedRowData?.diplomaSchedule).format('MMMM DD, YYYY')}
                             render={({ field }) => (
                               <TextField
                                 {...field}
@@ -679,7 +679,7 @@ const Home = () => {
                           <Controller
                             name='authenticationSchedule'
                             control={control}
-                            defaultValue={selectedRowData?.authenticationSchedule}
+                            defaultValue={dayjs(selectedRowData?.authenticationSchedule).format('MMMM DD, YYYY')}
                             render={({ field }) => (
                               <TextField
                                 {...field}
@@ -722,7 +722,7 @@ const Home = () => {
                           <Controller
                             name='courseDescriptionSchedule'
                             control={control}
-                            defaultValue={selectedRowData?.courseDescriptionSchedule}
+                            defaultValue={dayjs(selectedRowData?.courseDescriptionSchedule).format('MMMM DD, YYYY')}
                             render={({ field }) => (
                               <TextField
                                 {...field}
@@ -761,7 +761,7 @@ const Home = () => {
                             )}
                           />
                         </Grid>
-                        <Grid item sm={4} xs={12}>
+                        <Grid item sm={3} xs={12}>
                           <Controller
                             name='certificationCopies'
                             control={control}
@@ -778,11 +778,11 @@ const Home = () => {
                             )}
                           />
                         </Grid>
-                        <Grid item sm={4} xs={12}>
+                        <Grid item sm={5} xs={12}>
                           <Controller
                             name='certificationSchedule'
                             control={control}
-                            defaultValue={selectedRowData?.certificationSchedule}
+                            defaultValue={dayjs(selectedRowData?.certificationSchedule).format('MMMM DD, YYYY')}
                             render={({ field }) => (
                               <TextField
                                 {...field}

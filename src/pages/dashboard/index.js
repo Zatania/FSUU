@@ -686,6 +686,7 @@ const Dashboard = () => {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={6}>
         <Grid item sm={12} xs={12}>
+          For Schedule
           <DataGrid
             autoHeight
             hideFooter
@@ -695,7 +696,17 @@ const Dashboard = () => {
             pagination={undefined}
           />
         </Grid>
-        {ability?.can('read', 'scheduleList') ? <Grid item sm={12} xs={12}></Grid> : null}
+        <Grid item sm={12} xs={12}>
+          Scheduled
+          <DataGrid
+            autoHeight
+            hideFooter
+            rows={rows}
+            columns={columns}
+            disableRowSelectionOnClick
+            pagination={undefined}
+          />
+        </Grid>
       </Grid>
     </LocalizationProvider>
   )

@@ -55,9 +55,9 @@ const LoginIllustrationWrapper = styled(Box)(({ theme }) => ({
 }))
 
 const LoginIllustration = styled('img')(({ theme }) => ({
-  maxWidth: '48rem',
+  maxWidth: '60rem',
   [theme.breakpoints.down('lg')]: {
-    maxWidth: '35rem'
+    maxWidth: '50rem'
   }
 }))
 
@@ -146,7 +146,9 @@ const LoginPage = () => {
     <Box className='content-right'>
       {!hidden ? (
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          <LoginIllustrationWrapper>Insert Photo Here</LoginIllustrationWrapper>
+          <LoginIllustrationWrapper>
+            <LoginIllustration alt='login-illustration' src={`/images/wallpaper.png`} />
+          </LoginIllustrationWrapper>
         </Box>
       ) : null}
       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>

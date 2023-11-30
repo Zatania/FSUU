@@ -12,7 +12,6 @@ const insertFormDataIntoDatabase = async (userID, formData) => {
       [
         'dateFilled',
         'graduationDate',
-        'lastSchoolYear',
         'birthDate',
         'elementaryGraduated',
         'secondaryGraduated',

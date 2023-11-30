@@ -176,13 +176,9 @@ const RequestCredentials = () => {
       academicHonor.setText(formData.academicHonor)
     } else {
       graduatedNo.setText('X')
-      const lastSchoolYearFilledForm = formData.lastSchoolYear
 
-      const formattedLastSchoolYear = lastSchoolYearFilledForm
-        ? dayjs(lastSchoolYearFilledForm).format('MM/DD/YYYY')
-        : ''
       yearLevel.setText(formData.yearLevel)
-      lastSchoolYear.setText(formattedLastSchoolYear)
+      lastSchoolYear.setText(formData.lastSchoolYear)
     }
     homeAddress.setText(formData.homeAddress)
     contactNumber.setText(formData.contactNo)
@@ -599,8 +595,16 @@ const RequestCredentials = () => {
                     <Controller
                       name='lastSchoolYear'
                       control={control}
-                      defaultValue=''
-                      render={({ field }) => <DatePicker {...field} label='Last School Year attended' />}
+                      rules={{ required: 'This field is required' }}
+                      render={({ field }) => (
+                        <TextField
+                          {...field}
+                          fullWidth
+                          label='School Year (e.g. 2020-2021 1st Semester)'
+                          error={!!errors.lastSchoolYear}
+                          helperText={errors.lastSchoolYear?.message}
+                        />
+                      )}
                     />
                   </Grid>
                 </>
