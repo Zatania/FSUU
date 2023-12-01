@@ -12,7 +12,10 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import IconButton from '@mui/material/IconButton'
 import Fade from '@mui/material/Fade'
+import Card from '@mui/material/Card'
 
+import CardHeader from '@mui/material/CardHeader'
+import CardContent from '@mui/material/CardContent'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 
 // ** Icon Imports
@@ -685,28 +688,20 @@ const Dashboard = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Grid container spacing={6}>
-        <Grid item sm={12} xs={12}>
-          For Schedule
-          <DataGrid
-            autoHeight
-            hideFooter
-            rows={rows}
-            columns={columns}
-            disableRowSelectionOnClick
-            pagination={undefined}
-          />
-        </Grid>
-        <Grid item sm={12} xs={12}>
-          Scheduled
-          <DataGrid
-            autoHeight
-            hideFooter
-            rows={rows}
-            columns={columns}
-            disableRowSelectionOnClick
-            pagination={undefined}
-          />
-        </Grid>
+        <Card>
+          <CardHeader title='Submitted Transactions' />
+          <Grid item sm={12} xs={12}>
+            For Schedule
+            <DataGrid
+              autoHeight
+              hideFooter
+              rows={rows}
+              columns={columns}
+              disableRowSelectionOnClick
+              pagination={undefined}
+            />
+          </Grid>
+        </Card>
       </Grid>
     </LocalizationProvider>
   )

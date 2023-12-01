@@ -916,26 +916,32 @@ const Home = () => {
       <Grid container spacing={6}>
         <Grid item sm={12} xs={12}>
           <Card>
-            <DataGrid
-              autoHeight
-              hideFooter
-              rows={rows}
-              columns={columns}
-              disableRowSelectionOnClick
-              pagination={undefined}
-            />
+            <CardHeader title='Pending/Submitted Transactions' />
+            <CardContent>
+              <DataGrid
+                autoHeight
+                hideFooter
+                rows={rows}
+                columns={columns}
+                disableRowSelectionOnClick
+                pagination={undefined}
+              />
+            </CardContent>
           </Card>
         </Grid>
         <Grid item sm={12} xs={12}>
           <Card>
-            <DataGrid
-              autoHeight
-              hideFooter
-              rows={schedrows}
-              columns={schedColumns}
-              disableRowSelectionOnClick
-              pagination={undefined}
-            />
+            <CardHeader title='Scheduled Transactions' />
+            <CardContent>
+              <DataGrid
+                autoHeight
+                hideFooter
+                rows={schedrows}
+                columns={schedColumns}
+                disableRowSelectionOnClick
+                pagination={undefined}
+              />
+            </CardContent>
           </Card>
         </Grid>
       </Grid>

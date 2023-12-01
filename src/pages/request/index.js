@@ -59,6 +59,26 @@ const RequestCredentials = () => {
 
   // ** Other states
 
+  // ** Transaction Price
+  const transcriptPrice = 500
+  const dismissalPrice = 500
+  const moralCharacterPrice = 100
+  const diplomaPrice = 500
+  const authenticationPrice = 50
+  const courseDescriptionPrice = 500
+  const certificationPrice = 100
+  const cavRedRibbonPrice = 300
+
+  // ** Transcription Amount
+  let transcriptTotalAmount = 0
+  let dismissalTotalAmount = 0
+  let moralCharacterTotalAmount = 0
+  let diplomaTotalAmount = 0
+  let authenticationTotalAmount = 0
+  let courseDescriptionTotalAmount = 0
+  let certificationTotalAmount = 0
+  let cavRedRibbonTotalAmount = 0
+
   const [loading, setLoading] = useState(false)
 
   const [showFields, setShowFields] = useState({
@@ -139,21 +159,30 @@ const RequestCredentials = () => {
     const position = form.getTextField('Position')
     const transcriptCheck = form.getTextField('Transcript of Records')
     const transcriptCopies = form.getTextField('Transcript Copies')
+    const transcriptAmount = form.getTextField('Transcript Amount')
     const dismissalCheck = form.getTextField('Honorable Dismissal')
     const dismissalCopies = form.getTextField('Dismissal Copies')
+    const dismissalAmount = form.getTextField('Dismissal Amount')
     const moralCharacterCheck = form.getTextField('Good Moral Character')
     const moralCharacterCopies = form.getTextField('Moral Character Copies')
+    const moralCharacterAmount = form.getTextField('Moral Character Amount')
     const diplomaCheck = form.getTextField('Diploma')
     const diplomaCopies = form.getTextField('Diploma Copies')
+    const diplomaAmount = form.getTextField('Diploma Amount')
     const authenticationCheck = form.getTextField('Authentication')
     const authenticationCopies = form.getTextField('Authentication Copies')
+    const authenticationAmount = form.getTextField('Authentication Amount')
     const courseDescriptionCheck = form.getTextField('Course Description')
     const courseDescriptionCopies = form.getTextField('Course Description Copies')
+    const courseDescriptionAmount = form.getTextField('Course Description Amount')
     const certificationCheck = form.getTextField('Certification')
     const certificationType = form.getTextField('Certification Type')
     const certificationCopies = form.getTextField('Certification Copies')
+    const certificationAmount = form.getTextField('Certification Amount')
     const cavRedRibbonCheck = form.getTextField('CAV')
     const cavRedRibbonCopies = form.getTextField('CAV Copies')
+    const cavRedRibbonAmount = form.getTextField('CAV Amount')
+    const totalAmount = form.getTextField('Total Amount')
     const purpose = form.getTextField('Purpose')
     const assistedBy = form.getTextField('Assisted by')
 
@@ -237,36 +266,65 @@ const RequestCredentials = () => {
     if (formData.transcriptCopies) {
       transcriptCheck.setText('X')
       transcriptCopies.setText(formData.transcriptCopies)
+      transcriptTotalAmount = formData.transcriptCopies * transcriptPrice
+      transcriptAmount.setText(transcriptTotalAmount.toString())
     }
     if (formData.dismissalCopies) {
       dismissalCheck.setText('X')
       dismissalCopies.setText(formData.dismissalCopies)
+      dismissalTotalAmount = formData.dismissalCopies * dismissalPrice
+      dismissalAmount.setText(dismissalTotalAmount.toString())
     }
     if (formData.moralCharacterCopies) {
       moralCharacterCheck.setText('X')
       moralCharacterCopies.setText(formData.moralCharacterCopies)
+      moralCharacterTotalAmount = formData.moralCharacterCopies * moralCharacterPrice
+      moralCharacterAmount.setText(moralCharacterTotalAmount.toString())
     }
     if (formData.diplomaCopies) {
       diplomaCheck.setText('X')
       diplomaCopies.setText(formData.diplomaCopies)
+      diplomaTotalAmount = formData.diplomaCopies * diplomaPrice
+      diplomaAmount.setText(diplomaTotalAmount.toString())
     }
     if (formData.authenticationCopies) {
       authenticationCheck.setText('X')
       authenticationCopies.setText(formData.authenticationCopies)
+      authenticationTotalAmount = formData.authenticationCopies * authenticationPrice
+      authenticationAmount.setText(authenticationTotalAmount.toString())
     }
     if (formData.courseDescriptionCopies) {
       courseDescriptionCheck.setText('X')
       courseDescriptionCopies.setText(formData.courseDescriptionCopies)
+      courseDescriptionTotalAmount = formData.courseDescriptionCopies * courseDescriptionPrice
+      courseDescriptionAmount.setText(courseDescriptionTotalAmount.toString())
     }
     if (formData.certificationCopies) {
       certificationCheck.setText('X')
       certificationType.setText(formData.certificationType)
       certificationCopies.setText(formData.certificationCopies)
+      certificationTotalAmount = formData.certificationCopies * certificationPrice
+      certificationAmount.setText(certificationTotalAmount.toString())
     }
     if (formData.cavRedRibbonCopies) {
       cavRedRibbonCheck.setText('X')
       cavRedRibbonCopies.setText(formData.cavRedRibbonCopies)
+      cavRedRibbonTotalAmount = formData.cavRedRibbonCopies * cavRedRibbonPrice
+      cavRedRibbonAmount.setText(cavRedRibbonTotalAmount.toString())
     }
+
+    const totalAmountString = (
+      transcriptTotalAmount +
+      dismissalTotalAmount +
+      moralCharacterTotalAmount +
+      diplomaTotalAmount +
+      authenticationTotalAmount +
+      courseDescriptionTotalAmount +
+      certificationTotalAmount +
+      cavRedRibbonTotalAmount
+    ).toString()
+
+    totalAmount.setText(totalAmountString)
     purpose.setText(formData.purpose)
     assistedBy.setText('Online Filled by: ' + formData.firstName + ' ' + formData.lastName)
 
@@ -1071,7 +1129,7 @@ const RequestCredentials = () => {
                       name='transcriptCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
@@ -1098,7 +1156,7 @@ const RequestCredentials = () => {
                       name='dismissalCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
@@ -1125,7 +1183,7 @@ const RequestCredentials = () => {
                       name='moralCharacterCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
@@ -1152,7 +1210,7 @@ const RequestCredentials = () => {
                       name='diplomaCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
@@ -1179,7 +1237,7 @@ const RequestCredentials = () => {
                       name='authenticationCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
@@ -1206,7 +1264,7 @@ const RequestCredentials = () => {
                       name='courseDescriptionCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
@@ -1250,7 +1308,7 @@ const RequestCredentials = () => {
                       name='certificationCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
@@ -1277,7 +1335,7 @@ const RequestCredentials = () => {
                       name='cavRedRibbonCopies'
                       control={control}
                       rules={{ required: 'This field is required' }}
-                      defaultValue=''
+                      defaultValue='0'
                       render={({ field }) => (
                         <TextField
                           {...field}
